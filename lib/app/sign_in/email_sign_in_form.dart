@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
+import 'package:time_tracker_flutter_course/services/auth.dart';
 
 enum EmailSingInFormType { singIn, register }
 
 class EmailSignInForm extends StatefulWidget {
+  const EmailSignInForm({@required this.auth});
+
+  final AuthBase auth;
+
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -12,11 +17,23 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String get email => _emailController.text;
+
+  String get password => _passwordController.text;
+
   EmailSingInFormType _formType = EmailSingInFormType.singIn;
 
-  void _submit() {
-    print(
-        'email: ${_emailController.text} password: ${_passwordController.text}');
+  void _submit() async {
+    try {
+      if (_formType == EmailSingInFormType.singIn) {
+        await widget.auth.signInWithEmailAndPassword(email, password);
+      } else {
+        await widget.auth.createUserWithEmailAndPassword(email, password);
+      }
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void _toggleFormType() {
@@ -27,7 +44,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
       _emailController.clear();
       _passwordController.clear();
-
     });
   }
 
