@@ -7,14 +7,16 @@ import 'package:time_tracker_flutter_course/app/sign_in/sing_in_bloc.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/social_sign_in_button.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
+import '../../services/auth.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key key, @required this.bloc}) : super(key: key);
   final SingInBloc bloc;
 
   static Widget create(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context,listen: false);
     return Provider<SingInBloc>(
-      create: (_) => SingInBloc(),
+      create: (_) => SingInBloc(auth: auth),
       dispose: (_, bloc) => bloc.dispose(),
       child: Consumer<SingInBloc>(
         builder: (_, bloc, __) => SignInPage(
