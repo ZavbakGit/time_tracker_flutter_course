@@ -24,9 +24,8 @@ class SingInBloc {
       _setIsLoading(true);
       return await singInMethod();
     } catch (e) {
+      _setIsLoading(false);
       rethrow;
-    } finally {
-      _setIsLoading(true);
     }
   }
 

@@ -14,7 +14,7 @@ class SignInPage extends StatelessWidget {
   final SingInBloc bloc;
 
   static Widget create(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context,listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
     return Provider<SingInBloc>(
       create: (_) => SingInBloc(auth: auth),
       dispose: (_, bloc) => bloc.dispose(),
@@ -40,37 +40,25 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonymously(BuildContext context) async {
     try {
-      bloc.setIsLoading(true);
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInAnonymously();
+      await bloc.signInAnonymously();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      bloc.setIsLoading(false);
     }
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      bloc.setIsLoading(true);
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInWithGoogle();
+      await bloc.signInWithGoogle();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      bloc.setIsLoading(false);
     }
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      bloc.setIsLoading(true);
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInWithFacebook();
+      await bloc.signInWithFacebook();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      bloc.setIsLoading(false);
     }
   }
 
