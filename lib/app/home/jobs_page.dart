@@ -37,11 +37,15 @@ class JobsPage extends StatelessWidget {
   Future<void> _createJob(BuildContext context) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
-      await database.createJob(
-          Job(name: 'Blogging', ratePerHour: Random().nextInt(10)));
+      await database
+          .createJob(Job(name: 'Blogging', ratePerHour: Random().nextInt(10)));
     } on FirebaseException catch (e) {
       //if (e.code == 'permission-denied'){/*handle permission error */}
-      showExceptionAlertDialog(context, title: 'Operation faild', exception: e,);
+      showExceptionAlertDialog(
+        context,
+        title: 'Operation faild',
+        exception: e,
+      );
     }
   }
 
@@ -60,10 +64,31 @@ class JobsPage extends StatelessWidget {
           )
         ],
       ),
+      body: _buildContext(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _createJob(context),
       ),
+    );
+  }
+
+  Widget _buildContext(BuildContext context) {
+    final database = Provider.of<Database>(context);
+    return StreamBuilder<List<Job>>(
+      stream: database.jobsStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final jobs = snapshot.data;
+          final children = jobs.map((job) => Text(job.name)).toList();
+          return ListView(
+            children: children,
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Some error occurred'));
+        }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 }
