@@ -52,3 +52,5 @@ class FirestoreService {
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 }
+
+
