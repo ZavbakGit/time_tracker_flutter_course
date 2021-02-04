@@ -30,3 +30,5 @@ class MyApp extends StatelessWidget {
 //TODO flutter_slidable можно добавить кнопки на свайп
 //https://pub.dev/packages/flutter_slidable
 //TODO Placeholder - виджет для просмотра размеров урок 296
+
+//if (5>3) ...<Widget>[Text('Hi'),Text('Hi')], можно использовать для колонки или строки
