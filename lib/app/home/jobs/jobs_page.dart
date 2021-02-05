@@ -13,55 +13,6 @@ import '../models/job.dart';
 import 'list_items_builder.dart';
 
 class JobsPage extends StatelessWidget {
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final didRequestSignOut = await showAlertDialog(
-      context,
-      title: 'Logout!',
-      content: 'Are you sure than yiu want to logout?',
-      defaultActionText: 'Logout',
-      cancelActionText: 'Cancel',
-    );
-
-    if (didRequestSignOut == true) {
-      _signOut(context);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Jobs'),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => _confirmSignOut(context),
-            child: Text(
-              'Logout',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
-          )
-        ],
-      ),
-      body: _buildContext(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => EditJobPage.show(
-          context,
-          database: Provider.of<Database>(context, listen: false),
-        ),
-      ),
-    );
-  }
-
   Future<void> _delete(BuildContext context, Job job) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
@@ -73,6 +24,25 @@ class JobsPage extends StatelessWidget {
         exception: e,
       );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Jobs'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add, color: Colors.white),
+            onPressed: () => EditJobPage.show(
+              context,
+              database: Provider.of<Database>(context, listen: false),
+            ),
+          ),
+        ],
+      ),
+      body: _buildContext(context),
+    );
   }
 
   Widget _buildContext(BuildContext context) {
