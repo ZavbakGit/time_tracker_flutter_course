@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/email_sing_in_model.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
@@ -7,15 +8,15 @@ class EmailSinInBloc {
   EmailSinInBloc({@required this.auth});
 
   final AuthBase auth;
-  final StreamController<EmailSingInModel> _modelController =
-      StreamController<EmailSingInModel>();
+  final _modelSubject =
+      BehaviorSubject<EmailSingInModel>.seeded(EmailSingInModel());
 
-  Stream<EmailSingInModel> get modelStream => _modelController.stream;
+  Stream<EmailSingInModel> get modelStream => _modelSubject.stream;
 
-  EmailSingInModel _model = EmailSingInModel();
+  EmailSingInModel get _model => _modelSubject.value;
 
   void dispose() {
-    _modelController.close();
+    _modelSubject.close();
   }
 
   Future<void> submit() async {
@@ -60,14 +61,12 @@ class EmailSinInBloc {
     bool submitted,
   }) {
     // update model
-    _model = _model.copyWith(
+    _modelSubject.value = _model.copyWith(
       email: email,
       formType: formType,
       isLoading: isLoading,
       password: password,
       submitted: submitted,
     );
-    _modelController.add(_model);
-    // add updated model to _modelController
   }
 }
