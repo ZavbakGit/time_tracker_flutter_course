@@ -2,24 +2,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/app/sign_in/email_sin_in_bloc.dart';
-import 'package:time_tracker_flutter_course/app/sign_in/email_sing_in_change_model.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_bloc.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_change_model.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
-import 'email_sing_in_model.dart';
+import 'email_sign_in_model.dart';
 
 class EmailSignInFormChangeNotifier extends StatefulWidget {
   EmailSignInFormChangeNotifier({@required this.model});
 
-  final EmailSingInChangeModel model;
+  final EmailSignInChangeModel model;
 
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    return ChangeNotifierProvider<EmailSingInChangeModel>(
-      create: (_) => EmailSingInChangeModel(auth: auth),
-      child: Consumer<EmailSingInChangeModel>(
+    return ChangeNotifierProvider<EmailSignInChangeModel>(
+      create: (_) => EmailSignInChangeModel(auth: auth),
+      child: Consumer<EmailSignInChangeModel>(
         builder: (_, model, __) => EmailSignInFormChangeNotifier(model: model),
       ),
     );
@@ -37,7 +37,7 @@ class _EmailSignInFormChangeNotifierState extends State<EmailSignInFormChangeNot
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
-  EmailSingInChangeModel get model => widget.model;
+  EmailSignInChangeModel get model => widget.model;
 
   @override
   void dispose() {

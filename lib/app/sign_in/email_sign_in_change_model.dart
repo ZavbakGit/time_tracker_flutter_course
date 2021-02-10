@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:time_tracker_flutter_course/app/sign_in/email_sing_in_model.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_model.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/validators.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
-class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
-  EmailSingInChangeModel({
+class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
+  EmailSignInChangeModel({
     @required this.auth,
     this.email = '',
     this.password = '',
-    this.formType = EmailSingInFormType.singIn,
+    this.formType = EmailSignInFormType.signIn,
     this.isLoading = false,
     this.submitted = false,
   });
@@ -16,7 +16,7 @@ class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
 
   String email;
   String password;
-  EmailSingInFormType formType;
+  EmailSignInFormType formType;
   bool isLoading;
   bool submitted;
 
@@ -24,7 +24,7 @@ class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     updateWith(submitted: true, isLoading: true);
     try {
       //await Future.delayed(Duration(seconds: 3));
-      if (formType == EmailSingInFormType.singIn) {
+      if (formType == EmailSignInFormType.signIn) {
         await auth.signInWithEmailAndPassword(email, password);
       } else {
         await auth.createUserWithEmailAndPassword(email, password);
@@ -36,13 +36,13 @@ class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   String get primaryButtonText {
-    return formType == EmailSingInFormType.singIn
+    return formType == EmailSignInFormType.signIn
         ? 'Sing in'
         : 'Create an account';
   }
 
   String get secondaryButtonText {
-    return formType == EmailSingInFormType.singIn
+    return formType == EmailSignInFormType.signIn
         ? 'Need an account? Register?'
         : 'Have in account? Sing in';
   }
@@ -64,9 +64,9 @@ class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   void toggleFormType() {
-    final formType = this.formType == EmailSingInFormType.singIn
-        ? EmailSingInFormType.register
-        : EmailSingInFormType.singIn;
+    final formType = this.formType == EmailSignInFormType.signIn
+        ? EmailSignInFormType.register
+        : EmailSignInFormType.signIn;
 
     updateWith(
       email: '',
@@ -84,7 +84,7 @@ class EmailSingInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   void updateWith({
     String email,
     String password,
-    EmailSingInFormType formType,
+    EmailSignInFormType formType,
     bool isLoading,
     bool submitted,
   }) {

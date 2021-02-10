@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/landing_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
+import 'package:time_tracker_flutter_course/services/database.dart';
 
-
-void main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -17,18 +17,14 @@ class MyApp extends StatelessWidget {
     return Provider<AuthBase>(
       create: (context) => Auth(),
       child: MaterialApp(
-        title: 'Time tracker',
+        title: 'Time Tracker',
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
-        home: LandingPage(),
+        home: LandingPage(
+          databaseBuilder: (uid) => FirestoreDatabase(uid: uid),
+        ),
       ),
     );
   }
 }
-
-//TODO flutter_slidable можно добавить кнопки на свайп
-//https://pub.dev/packages/flutter_slidable
-//TODO Placeholder - виджет для просмотра размеров урок 296
-
-//if (5>3) ...<Widget>[Text('Hi'),Text('Hi')], можно использовать для колонки или строки
