@@ -21,6 +21,12 @@ void main() {
   'AND password is updated'
   'AND submit is called'
   'THEN modelStream emits the correct events', () async {
-    expect(bloc.modelStream, emits(EmailSignInModel()));
+
+    final Stream<EmailSignInModel> modelStream = bloc.modelStream;
+    modelStream.listen((event) {
+      print(event);
+    });
+
+    expect(modelStream, emits(EmailSignInModel()));
   });
 }
